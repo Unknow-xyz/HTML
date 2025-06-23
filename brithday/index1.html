@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎉 Happy Birthday Umar!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to top right, #ffdde1, #f99fc1);
+      font-family: 'Comic Sans MS', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      color: #ff1493;
+      font-size: 2.8em;
+      margin-top: 30px;
+      text-shadow: 2px 2px 6px #fff;
+      animation: pop 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes pop {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    #card {
+      background-color: white;
+      padding: 25px;
+      margin-top: 20px;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      z-index: 2;
+    }
+
+    #card p {
+      font-size: 1.1em;
+      color: #444;
+    }
+
+    #message {
+      display: none;
+      margin-top: 15px;
+      font-size: 1.1em;
+      color: #333;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff1493;
+    }
+
+    .cake {
+      position: relative;
+      margin-top: 40px;
+      width: 160px;
+      height: 160px;
+      z-index: 2;
+    }
+
+    .layer {
+      width: 100%;
+      height: 35px;
+      border-radius: 10px;
+      position: absolute;
+      left: 0;
+    }
+
+    .bottom {
+      background: #f06292;
+      bottom: 0;
+      box-shadow: 0 8px 10px rgba(0,0,0,0.15);
+    }
+
+    .middle {
+      background: #ffcc80;
+      bottom: 35px;
+      box-shadow: 0 8px 10px rgba(0,0,0,0.15);
+    }
+
+    .top {
+      background: #ba68c8;
+      bottom: 70px;
+      box-shadow: 0 8px 10px rgba(0,0,0,0.15);
+    }
+
+    .candle {
+      position: absolute;
+      width: 10px;
+      height: 25px;
+      background: #333;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .flame {
+      position: absolute;
+      top: -12px;
+      left: -4px;
+      width: 18px;
+      height: 18px;
+      background: radial-gradient(circle, yellow 40%, orange 60%, red 100%);
+      border-radius: 50%;
+      animation: flicker 0.2s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(circle, #ff4a83, #ff1493);
+      border-radius: 50% 50% 45% 45%;
+      animation: floatBalloon 10s linear infinite;
+      z-index: 0;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: #888;
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatBalloon {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .birthday-image {
+      width: 200px;
+      margin-top: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>🎈 Happy Birthday, <span style="color:#ff4500">Umar</span>! 🎂</h1>
+
+  <div id="card">
+    <p>Hey <strong>Umar</strong>, click the gift to open your surprise!</p>
+    <button onclick="showMessage()">🏱 Open Surprise</button>
+    <p id="message">Wishing you an amazing day filled with happiness, fun and lots of cake! 🎉💖</p>
+    <audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+  </div>
+
+  <img src="https://placekitten.com/300/200" alt="Birthday Image" class="birthday-image" id="birthdayPic" />
+
+  <div class="cake">
+    <div class="layer bottom"></div>
+    <div class="layer middle"></div>
+    <div class="layer top"></div>
+    <div class="candle">
+      <div class="flame"></div>
+    </div>
+  </div>
+
+  <script>
+    function showMessage() {
+      document.getElementById('message').style.display = 'block';
+      document.getElementById('music').play();
+    }
+
+    // Balloons
+    for (let i = 0; i < 25; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDuration = (6 + Math.random() * 5) + 's';
+      balloon.style.background = `radial-gradient(circle, hsl(${Math.random()*360}, 90%, 70%), hsl(${Math.random()*360}, 70%, 50%))`;
+      document.body.appendChild(balloon);
+    }
+  </script>
+</body>
+</html>

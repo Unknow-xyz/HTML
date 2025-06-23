@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎉 Birthday Surprise</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top right, #ffb6c1, #ffe4e1);
+      font-family: 'Comic Sans MS', cursive;
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      color: #ff1493;
+      font-size: 2.2em;
+      margin-bottom: 0.4em;
+      text-shadow: 2px 2px 10px white;
+      animation: pop 1s ease-in-out infinite alternate;
+    }
+
+    .message {
+      font-size: 1.1em;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    @keyframes pop {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    #card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+      max-width: 100%;
+      width: 340px;
+      margin-bottom: 20px;
+    }
+
+    #message {
+      display: none;
+      font-size: 1.1em;
+      color: #333;
+      margin-top: 20px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff1493;
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+    }
+
+    .portrait {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 10px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .balloon {
+      position: fixed;
+      bottom: -100px;
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(circle, #ff4a83, #ff1493);
+      border-radius: 50% 50% 45% 45%;
+      animation: floatBalloon 10s linear infinite;
+      z-index: 0;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: #888;
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatBalloon {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="wrapper">
+    <h1>🎉 Happy Birthday, <span>Umar!</span> 🎂</h1>
+    <p class="message">Wishing you joy, love, and lots of cake!</p>
+
+    <div id="card">
+      <p><strong>🎁 Upload your photo & music</strong></p>
+
+      <input type="file" accept="image/*" onchange="previewImage(event)" />
+      <img id="userImage" class="portrait" />
+
+      <input type="file" accept="audio/*" onchange="playMusic(event)" />
+      <audio id="birthdayMusic" controls style="width: 100%; display: none;"></audio>
+
+      <button onclick="showMessage()">💌 Open Surprise</button>
+      <p id="message">✨ Wishing you a magical day full of surprises and laughter! 💖🎊</p>
+    </div>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = document.getElementById('userImage');
+        img.src = reader.result;
+        img.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function playMusic(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const audio = document.getElementById('birthdayMusic');
+      audio.src = URL.createObjectURL(file);
+      audio.style.display = 'block';
+      audio.play();
+    }
+
+    function showMessage() {
+      document.getElementById('message').style.display = 'block';
+    }
+
+    // 🎈 Balloons
+    for (let i = 0; i < 20; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDuration = (6 + Math.random() * 5) + 's';
+      balloon.style.background = `radial-gradient(circle, hsl(${Math.random()*360}, 90%, 70%), hsl(${Math.random()*360}, 70%, 50%))`;
+      document.body.appendChild(balloon);
+    }
+
+    // 🎊 Confetti
+    const canvas = document.getElementById("confettiCanvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function createConfetti() {
+      for (let i = 0; i < 150; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 10 + 5,
+          color: `hsl(${Math.random()*360}, 100%, 60%)`,
+          tilt: Math.random() * 10 - 10,
+          tiltAngle: 0,
+          tiltAngleIncrement: (Math.random() * 0.07) + 0.05
+        });
+      }
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.lineWidth = p.r;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+        ctx.stroke();
+      });
+      updateConfetti();
+    }
+
+    function updateConfetti() {
+      particles.forEach(p => {
+        p.tiltAngle += p.tiltAngleIncrement;
+        p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+        p.x += Math.sin(p.d);
+        p.tilt = Math.sin(p.tiltAngle - p.d / 3) * 15;
+        if (p.y > canvas.height) {
+          p.y = -10;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    function animateConfetti() {
+      drawConfetti();
+      requestAnimationFrame(animateConfetti);
+    }
+
+    createConfetti();
+    animateConfetti();
+  </script>
+</body>
+</html>
