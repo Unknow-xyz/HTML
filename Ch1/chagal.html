@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Funny Page</title>
+  <style>
+    body {
+      font-family: Comic Sans MS, cursive;
+      text-align: center;
+      background-color: #ffeeba;
+      padding-top: 100px;
+    }
+    button {
+      font-size: 24px;
+      background-color: red;
+      color: white;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: darkred;
+    }
+    #message {
+      font-size: 24px;
+      margin-top: 30px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Whatever You Do...</h1>
+  <h2>DO NOT CLICK THIS BUTTON!</h2>
+
+  <button onclick="makeItFunny()">DON'T CLICK ME</button>
+
+  <div id="message"></div>
+
+  <script>
+    function makeItFunny() {
+      const messages = [
+        "I told you not to click it!",
+        "Seriously? Again?",
+        "You're unstoppable...",
+        "Okay now you're just doing it on purpose.",
+        "Fine, click all you want 😆"
+      ];
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+      document.getElementById("message").textContent = randomMsg;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Funny Click Game</title>
+  <style>
+    body {
+      font-family: Comic Sans MS, cursive;
+      text-align: center;
+      background-color: #fffad0;
+      padding-top: 100px;
+      overflow-x: hidden;
+    }
+    button {
+      font-size: 24px;
+      background-color: red;
+      color: white;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    button.shake {
+      animation: shake 0.3s infinite;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    #message {
+      font-size: 28px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #score {
+      font-size: 36px;
+      margin-top: 40px;
+      font-weight: bold;
+      color: #ff0000;
+    }
+    #troll-msg {
+      font-size: 32px;
+      margin-top: 30px;
+      color: #ff0000;
+      font-weight: bold;
+      display: none;
+    }
+    #big-emoji {
+      font-size: 100px;
+      display: none;
+      margin-top: 20px;
+    }
+    #troll-img {
+      display: none;
+      width: 200px;
+      margin-top: 20px;
+    }
+    .emoji {
+      position: absolute;
+      font-size: 40px;
+      animation: fly 1s ease-out forwards;
+    }
+    @keyframes fly {
+      0% { top: 100px; opacity: 1; }
+      100% { top: -50px; opacity: 0; transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Click to Earn Points!</h1>
+  <button id="gameBtn" onclick="makeItFunny()">Click Me!</button>
+
+  <div id="score">Score: 0</div>
+  <div id="message"></div>
+  <div id="troll-msg"></div>
+  <div id="big-emoji">🤣</div>
+  <img id="troll-img" src="https://i.imgur.com/3ZQ3Z8b.png" alt="Troll Face">
+
+  <!-- Funny Sound -->
+  <audio id="funnySound" src="https://www.myinstants.com/media/sounds/trololo.mp3"></audio>
+
+  <script>
+    let clickCount = 0;
+    let score = 0;
+
+    function makeItFunny() {
+      clickCount++;
+
+      const messageBox = document.getElementById("message");
+      const scoreBox = document.getElementById("score");
+      const trollMsgBox = document.getElementById("troll-msg");
+      const trollImg = document.getElementById("troll-img");
+      const bigEmoji = document.getElementById("big-emoji");
+      const funnyBtn = document.getElementById("gameBtn");
+      const sound = document.getElementById("funnySound");
+
+      // Emoji explosion
+      explodeEmoji();
+
+      if (clickCount <= 4) {
+        // Add points and display message
+        score += 10;
+        messageBox.textContent = `HEy chagal!`;
+        scoreBox.textContent = `Score: ${score}`;
+      } else {
+        // Troll response after 5 clicks
+        document.body.style.backgroundColor = "#ff69b4";
+        messageBox.style.display = "none";
+        trollMsgBox.style.display = "block";
+        bigEmoji.style.display = "block";
+        trollImg.style.display = "block";
+        trollMsgBox.textContent = "YOU CLICKED TOO MUCH! 🤣 GOTCHA!";
+        funnyBtn.classList.add("shake");
+
+        // Funny alert
+        alert("😂 You’ve been TROLLED!");
+
+        // Play sound
+        sound.play();
+
+        // Reset after trolling
+        setTimeout(resetGame, 2000);
+      }
+    }
+
+    function explodeEmoji() {
+      const emojis = ["😂", "😜", "💥", "👀", "🤯", "🤣"];
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * window.innerWidth + "px";
+      document.body.appendChild(emoji);
+
+      setTimeout(() => emoji.remove(), 1000);
+    }
+
+    function resetGame() {
+      clickCount = 0;
+      score = 0;
+      document.body.style.backgroundColor = "#fffad0"; // Reset color
+      document.getElementById("score").textContent = "Score: 0";
+      document.getElementById("troll-msg").style.display = "none";
+      document.getElementById("big-emoji").style.display = "none";
+      document.getElementById("troll-img").style.display = "none";
+      document.getElementById("gameBtn").classList.remove("shake");
+      document.getElementById("message").textContent = "Game Reset. Try Again!";
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Avoidance Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #87CEEB;
+    }
+    canvas {
+      display: block;
+      margin: 0 auto;
+      background-color: #ffffff;
+    }
+    .game-over {
+      font-size: 30px;
+      text-align: center;
+      color: red;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="game-over" id="gameOver">Game Over! Press F5 to Restart</h1>
+
+  <canvas id="gameCanvas" width="500" height="600"></canvas>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let car = {
+      x: 225,
+      y: 500,
+      width: 50,
+      height: 80,
+      speed: 5,
+    };
+
+    let obstacles = [];
+    let score = 0;
+    let gameOver = false;
+
+    document.addEventListener("keydown", moveCar);
+
+    function moveCar(event) {
+      if (event.key === "ArrowLeft" && car.x > 0) {
+        car.x -= car.speed;
+      } else if (event.key === "ArrowRight" && car.x < canvas.width - car.width) {
+        car.x += car.speed;
+      }
+    }
+
+    function createObstacle() {
+      const obstacleWidth = 50 + Math.random() * 50;
+      const obstacleHeight = 30 + Math.random() * 40;
+      const x = Math.random() * (canvas.width - obstacleWidth);
+      obstacles.push({ x, y: -obstacleHeight, width: obstacleWidth, height: obstacleHeight });
+    }
+
+    function moveObstacles() {
+      for (let i = 0; i < obstacles.length; i++) {
+        obstacles[i].y += 3;
+        if (obstacles[i].y > canvas.height) {
+          obstacles.splice(i, 1);
+          score++;
+        }
+      }
+    }
+
+    function checkCollision() {
+      for (let i = 0; i < obstacles.length; i++) {
+        if (
+          car.x < obstacles[i].x + obstacles[i].width &&
+          car.x + car.width > obstacles[i].x &&
+          car.y < obstacles[i].y + obstacles[i].height &&
+          car.y + car.height > obstacles[i].y
+        ) {
+          gameOver = true;
+          document.getElementById("gameOver").style.display = "block";
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (gameOver) {
+        return;
+      }
+
+      ctx.fillStyle = "#FF0000";
+      ctx.fillRect(car.x, car.y, car.width, car.height); // Draw the car
+
+      for (let i = 0; i < obstacles.length; i++) {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height); // Draw obstacles
+      }
+
+      ctx.fillStyle = "#000000";
+      ctx.font = "20px Arial";
+      ctx.fillText("Score: " + score, 10, 30); // Display score
+    }
+
+    function gameLoop() {
+      if (gameOver) return;
+
+      moveObstacles();
+      checkCollision();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function startGame() {
+      obstacles = [];
+      score = 0;
+      gameOver = false;
+      document.getElementById("gameOver").style.display = "none";
+
+      setInterval(createObstacle, 1000); // Create new obstacles every second
+      gameLoop();
+    }
+
+    startGame();
+  </script>
+
+</body>
+</html>

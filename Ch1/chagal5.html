@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ultimate Funny Button</title>
+  <style>
+    body {
+      font-family: Comic Sans MS, cursive;
+      text-align: center;
+      background-color: #fffad0;
+      padding-top: 100px;
+      overflow-x: hidden;
+    }
+    button {
+      font-size: 24px;
+      background-color: red;
+      color: white;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    button.shake {
+      animation: shake 0.3s infinite;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    #message, #troll-msg {
+      font-size: 28px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #troll-msg {
+      color: #ff0000;
+      display: none;
+    }
+    #big-emoji {
+      font-size: 100px;
+      display: none;
+      margin-top: 20px;
+    }
+    #troll-img {
+      display: none;
+      width: 200px;
+      margin-top: 20px;
+    }
+    .emoji {
+      position: absolute;
+      font-size: 40px;
+      animation: fly 1s ease-out forwards;
+    }
+    @keyframes fly {
+      0% { top: 100px; opacity: 1; }
+      100% { top: -50px; opacity: 0; transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Whatever You Do...</h1>
+  <h2>DO NOT CLICK THIS BUTTON!</h2>
+
+  <button id="funnyBtn" onclick="makeItFunny()">DON'T CLICK ME</button>
+
+  <div id="message"></div>
+  <div id="troll-msg"></div>
+  <div id="big-emoji">🤣</div>
+  <img id="troll-img" src="https://i.imgur.com/3ZQ3Z8b.png" alt="Troll Face">
+
+  <!-- Funny Sound -->
+  <audio id="funnySound" src="https://www.myinstants.com/media/sounds/trololo.mp3"></audio>
+
+  <script>
+    let clickCount = 0;
+
+    function makeItFunny() {
+      clickCount++;
+
+      const messageBox = document.getElementById("message");
+      const trollMsgBox = document.getElementById("troll-msg");
+      const trollImg = document.getElementById("troll-img");
+      const bigEmoji = document.getElementById("big-emoji");
+      const funnyBtn = document.getElementById("funnyBtn");
+      const sound = document.getElementById("funnySound");
+
+      // Emoji explosion
+      explodeEmoji();
+
+      if (clickCount <= 4) {
+        const messages = [
+        "I said don't click it!",
+        "Are you ignoring me Did you did not see?",
+        "You're really testing me... You iodt",
+        "Final warning... i will call the police if you do click it",
+        "..."
+        ];
+        messageBox.textContent = messages[clickCount - 1];
+      } else {
+        // Troll response
+        document.body.style.backgroundColor = "#ff69b4";
+        messageBox.style.display = "none";
+        trollMsgBox.style.display = "block";
+        bigEmoji.style.display = "block";
+        trollImg.style.display = "block";
+        trollMsgBox.textContent = "YOU Chagal wala ganda insan tenda !";
+        funnyBtn.classList.add("shake");
+
+        // Funny alert
+        alert("😂You tenda idiot i told you do not click.");
+
+        // Play sound
+        sound.play();
+      }
+    }
+
+    function explodeEmoji() {
+      const emojis = ["😂", "😜", "💥", "👀", "🤯", "🤣"];
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = Math.random() * window.innerWidth + "px";
+      document.body.appendChild(emoji);
+
+      setTimeout(() => emoji.remove(), 1000);
+    }
+  </script>
+
+</body>
+</html>

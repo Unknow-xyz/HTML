@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Funny Troll Button</title>
+  <style>
+    body {
+      font-family: Comic Sans MS, cursive;
+      text-align: center;
+      background-color: #fffad0;
+      padding-top: 100px;
+      transition: background-color 0.5s;
+    }
+    button {
+      font-size: 24px;
+      background-color: red;
+      color: white;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: darkred;
+    }
+    #message {
+      font-size: 24px;
+      margin-top: 30px;
+      color: green;
+    }
+    #troll-img {
+      display: none;
+      width: 200px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Whatever You Do...</h1>
+  <h2>DO NOT CLICK THIS BUTTON!</h2>
+
+  <button onclick="makeItFunny()">DON'T CLICK ME</button>
+
+  <div id="message"></div>
+  <img id="troll-img" src="https://i.imgur.com/3ZQ3Z8b.png" alt="Troll Face">
+
+  <script>
+    let clickCount = 0;
+
+    function makeItFunny() {
+      clickCount++;
+
+      const messages = [
+        "I said don't click it!",
+        "Are you ignoring me?",
+        "You're really testing me... You idiot",
+        "Last warning!",
+        "..."
+      ];
+
+      if (clickCount <= 4) {
+        document.getElementById("message").textContent = messages[clickCount - 1];
+      } else {
+        // TROLL TIME!
+        document.body.style.backgroundColor = "#ff69b4";
+        document.getElementById("message").textContent = "🎉 You idiot dafa ho ga basharam 😂";
+        document.getElementById("troll-img").style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Funny Troll Button</title>
+  <style>
+    body {
+      font-family: Comic Sans MS, cursive;
+      text-align: center;
+      background-color: #fffad0;
+      padding-top: 100px;
+      transition: background-color 0.5s;
+    }
+    button {
+      font-size: 24px;
+      background-color: red;
+      color: white;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: darkred;
+    }
+    #message {
+      font-size: 26px;
+      margin-top: 30px;
+      color: green;
+      font-weight: bold;
+    }
+    #troll-msg {
+      font-size: 32px;
+      margin-top: 30px;
+      color: #ff0000;
+      font-weight: bold;
+      display: none;
+    }
+    #troll-img {
+      display: none;
+      width: 200px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Whatever You Do...</h1>
+  <h2>DO NOT CLICK THIS BUTTON!</h2>
+
+  <button onclick="makeItFunny()">DON'T CLICK ME</button>
+
+  <div id="message"></div>
+  <div id="troll-msg"></div>
+  <img id="troll-img" src="https://i.imgur.com/3ZQ3Z8b.png" alt="Troll Face">
+
+  <script>
+    let clickCount = 0;
+
+    function makeItFunny() {
+      clickCount++;
+
+      const messages = [
+        "I said don't click it!",
+        "Are you ignoring me Did you did not see?",
+        "You're really testing me... You iodt",
+        "Final warning... i will call the police if you do click it",
+        "..."
+      ];
+
+      const messageBox = document.getElementById("message");
+      const trollMsgBox = document.getElementById("troll-msg");
+      const trollImg = document.getElementById("troll-img");
+
+      if (clickCount <= 4) {
+        messageBox.textContent = messages[clickCount - 1];
+      } else {
+        // Troll response
+        document.body.style.backgroundColor = "#ff69b4";
+        messageBox.style.display = "none";
+        trollMsgBox.style.display = "block";
+        trollMsgBox.textContent = "YOU Tenda dafar ganda bacha you iodiot ganda bacha";
+        trollImg.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
